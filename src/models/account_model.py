@@ -1,0 +1,12 @@
+from pydantic import BaseModel, Field
+from typing import Literal
+
+class CreateAccount(BaseModel):
+    account_number: str = Field(max_length=20, min_length=5)
+    holder_name: str = Field(max_length=100)
+    account_type: Literal["saving", "checking"]
+    initial_balance: float
+    currency: Literal["USD", "EUR"]
+
+class CreateAccountResponse(BaseModel):
+    id: str 
