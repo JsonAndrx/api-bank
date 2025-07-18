@@ -92,10 +92,8 @@ def test_update_account_balance_db_error(update_account_data):
     with patch("services.account_service.account_repository.get_account_by_id") as mock_get_by_id, \
         patch("services.account_service.account_repository.update_balance") as mock_update_balance:
 
-        # Simulas que la cuenta sí existe
         mock_get_by_id.return_value = {"_id": update_account_data.id, "balance": 1000.0}
 
-        # Simulas que falla al actualizar el balance
         mock_update_balance.side_effect = Exception("DB error")
 
         with pytest.raises(Exception) as exc_info:

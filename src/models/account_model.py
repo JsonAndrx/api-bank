@@ -14,7 +14,7 @@ class CreateAccountResponse(BaseModel):
 
 class UpdateAccountBalance(BaseModel):
     id: str
-    balance: float
+    balance: float = Field(..., ge=1)
 
 class UpdateAccountBalanceResponse(BaseModel):
     id: str
