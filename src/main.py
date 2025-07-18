@@ -5,4 +5,4 @@ from dotenv import load_dotenv
 load_dotenv()
 
 app = FastAPI()
-app.include_router(accounts.router, prefix="/api")
+app.include_router(accounts.router)

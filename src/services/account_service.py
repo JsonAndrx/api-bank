@@ -6,3 +6,9 @@ def create_account(account_data: account_model.CreateAccount):
         raise ValueError("Account with this account number already exists.")
     account = account_repository.create_account(account_data)
     return account
+
+def update_account_balance(account_data: account_model.UpdateAccountBalance):
+    if not account_repository.get_account_by_id(account_data.id):
+        raise ValueError("Account not found.")
+    result = account_repository.update_balance(account_data)
+    return result
