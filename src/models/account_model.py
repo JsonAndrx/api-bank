@@ -19,3 +19,14 @@ class UpdateAccountBalance(BaseModel):
 class UpdateAccountBalanceResponse(BaseModel):
     id: str
     balance: float
+
+class Account(BaseModel):
+    id: str
+    account_number: str
+    holder_name: str
+    account_type: str
+    balance: float
+    currency: str
+
+class Accounts(BaseModel):
+    accounts: list[Account]

@@ -12,3 +12,7 @@ def update_account_balance(account_data: account_model.UpdateAccountBalance):
         raise ValueError("Account not found.")
     result = account_repository.update_balance(account_data)
     return result
+
+def get_all_accounts():
+    accounts = account_repository.get_all_accounts()
+    return accounts

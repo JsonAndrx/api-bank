@@ -23,3 +23,10 @@ def update_account_balance( account_data: account_model.UpdateAccountBalance):
         return result
     except ValueError as e:
         raise HTTPException(status_code=400, detail=str(e))
+
+@router.get("/accounts", response_model=account_model.Accounts)
+def get_all_accounts():
+    accounts = account_service.get_all_accounts()
+    if accounts is None:
+        raise HTTPException(status_code=500, detail="Error fetching accounts from database")
+    return accounts

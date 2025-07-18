@@ -1,7 +1,7 @@
 import pytest
 from unittest.mock import patch
 from services import account_service
-from models.account_model import CreateAccount, UpdateAccountBalance
+from models.account_model import CreateAccount, UpdateAccountBalance, Account, Accounts
 
 
 @pytest.fixture
@@ -19,6 +19,29 @@ def update_account_data():
     return UpdateAccountBalance(
         id="123456789",
         balance=1500
+    )
+
+@pytest.fixture
+def valid_get_accounts_data():
+    return Accounts(
+        accounts=[
+            Account(
+                id="1",
+                account_number="123456789",
+                holder_name="John Doe",
+                account_type="saving",
+                balance=1000.0,
+                currency="USD"
+            ),
+            Account(
+                id="2",
+                account_number="987654321",
+                holder_name="Jane Doe",
+                account_type="checking",
+                balance=2000.0,
+                currency="EUR"
+            )
+        ]
     )
 
 def test_create_account_success(valid_account_data):
@@ -102,3 +125,14 @@ def test_update_account_balance_db_error(update_account_data):
         assert str(exc_info.value) == "DB error"
         mock_get_by_id.assert_called_once_with(update_account_data.id)
         mock_update_balance.assert_called_once_with(update_account_data)
+
+def test_get_all_accounts(valid_get_accounts_data):
+    with patch("services.account_service.account_repository.get_all_accounts") as mock_get_all:
+        mock_get_all.return_value = valid_get_accounts_data
+
+        result = account_service.get_all_accounts()
+
+        assert len(result.accounts) == 2
+        assert result.accounts[0].id == "1"
+        assert result.accounts[1].id == "2"
+        mock_get_all.assert_called_once()

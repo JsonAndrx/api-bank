@@ -61,3 +61,18 @@ def get_account_by_id(account_id: str):
     except Exception as e:
         print(f"MongoDB error: {e}")
         return None
+    
+def get_all_accounts():
+    try:
+        raw_accounts = collection.find({})
+        accounts = []
+        for acc in raw_accounts:
+            acc["id"] = str(acc["_id"])
+            del acc["_id"]
+            accounts.append(acc)
+        
+        data = account_model.Accounts.model_validate({"accounts": accounts})
+        return data
+    except Exception as e:
+        print(f"MongoDB error: {e}")
+        return None
